@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:memo_app/constants.dart';
+import 'package:memo_app/utils/shared_prefs.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +9,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // リストのデータ
+  List<String> listItems = [];
+
   final titleController = TextEditingController();
   String title = '';
   @override
@@ -20,15 +22,11 @@ class _HomePageState extends State<HomePage> {
 
   // アプリ起動時に保存したデータを読み込む
   void init() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      title = prefs.getString(kTitleKey) ?? '';
-    });
+    // インスタンスを取得
+    await SharePrefs.setInstance();
+    listItems = SharePrefs.getListItems();
+    setState(() {});
   }
-
-  // メモリストのデータ
-  List<String> memoList = [];
-  // String _text = '';
 
   @override
   Widget build(BuildContext context) {
@@ -69,15 +67,18 @@ class _HomePageState extends State<HomePage> {
                       width: 15.0,
                     ),
                     ElevatedButton(
-                      onPressed: () async {
-                        final prefs = await SharedPreferences.getInstance();
-                        // データを保存
-                        prefs.setString(kTitleKey, titleController.text);
-                        setState(() {
-                          // データを読み込む
-                          title = prefs.getString(kTitleKey) ?? '';
-                          memoList.add(title);
-                        });
+                      onPressed: () {
+                        if (titleController.text != '') {
+                          title = titleController.text;
+                          // リストに追加
+                          listItems.add(title);
+                          // データを保存
+                          SharePrefs.setListItems(listItems).then((_) {
+                            setState(() {});
+                          });
+                          // テキストフィールドの値はクリア
+                          titleController.clear();
+                        }
                       },
                       child: const Text(
                         'save',
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: ListView.builder(
-                  itemCount: memoList.length,
+                  itemCount: listItems.length,
                   itemBuilder: (context, index) {
                     return Card(
                       child: Padding(
@@ -100,20 +101,15 @@ class _HomePageState extends State<HomePage> {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                memoList[index],
+                                listItems[index],
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () async {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                // データを保存
-                                prefs.setString(
-                                    kTitleKey, titleController.text);
-                                setState(() {
-                                  // データを読み込む
-                                  // title = prefs.getString(kTitleKey) ?? '';
-                                  // memoList.add(title);
+                              onPressed: () {
+                                // // データを削除
+                                listItems.removeAt(index);
+                                SharePrefs.setListItems(listItems).then((_) {
+                                  setState(() {});
                                 });
                               },
                               child: const Icon(
