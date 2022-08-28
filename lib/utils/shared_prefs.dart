@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharePrefs {
   // 文字列の型を作成
   static const listItems = 'list_items';
-  static const completedItems = 'completed_items';
 
   static late SharedPreferences _sharedPreferences;
 
