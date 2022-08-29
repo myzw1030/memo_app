@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memo_app/component/card_button.dart';
+import 'package:memo_app/view/add_task_page.dart';
+import 'package:memo_app/utils/custom_page_route.dart';
 import 'package:memo_app/utils/shared_prefs.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,8 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // リストのデータ
-  List<String> listItems = [];
-  bool _validate = false;
+  List<String> listItems = [''];
 
   final titleController = TextEditingController();
   String title = '';
@@ -34,76 +35,70 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        behavior: HitTestBehavior.opaque,
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 15.0,
-                  top: 15.0,
-                  right: 15.0,
-                  bottom: 3.0,
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
+              GestureDetector(
+                onTap: () {
+                  // Navigator.pushNamed(context, AddTaskPage.id);
+                  Navigator.of(context).push(CustomPageRoute(
+                    const AddTaskPage(),
+                  ));
+                },
+                child: const Text('aaa'),
+              ),
+              Container(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: TextField(
+                        maxLines: null,
+                        minLines: 5,
+                        keyboardType: TextInputType.multiline,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        decoration: const InputDecoration(
+                          filled: false,
+                          hintText: 'メモを入力してね',
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 20.0,
+                            horizontal: 15.0,
+                          ),
+                        ),
+                        controller: titleController,
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: TextField(
-                          maxLines: null,
-                          keyboardType: TextInputType.multiline,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          decoration: InputDecoration(
-                            filled: false,
-                            hintText: 'メモを入力してね',
-                            errorText: _validate ? 'メモがないよ！' : null,
-                            border: const OutlineInputBorder(),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 20.0,
-                              horizontal: 15.0,
-                            ),
-                          ),
-                          controller: titleController,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 15.0,
-                      ),
-                      Expanded(
-                        child: CardButton(
-                          color: Colors.blue,
-                          press: () {
-                            if (titleController.text.isEmpty) {
-                              _validate = true;
+                    const SizedBox(
+                      width: 15.0,
+                    ),
+                    Expanded(
+                      child: CardButton(
+                        color: Colors.blue,
+                        press: () {
+                          if (titleController.text.isEmpty) {
+                            // _validate = true;
+                            setState(() {});
+                          } else {
+                            // _validate = false;
+                            title = titleController.text;
+                            // リストに追加
+                            listItems.add(title);
+                            // データを保存
+                            SharePrefs.setListItems(listItems).then((_) {
                               setState(() {});
-                            } else {
-                              _validate = false;
-                              title = titleController.text;
-                              // リストに追加
-                              listItems.add(title);
-                              // データを保存
-                              SharePrefs.setListItems(listItems).then((_) {
-                                setState(() {});
-                              });
-                              // テキストフィールドの値はクリア
-                              titleController.clear();
-                            }
-                          },
-                          icon: Icons.add,
-                        ),
+                            });
+                            // テキストフィールドの値はクリア
+                            titleController.clear();
+                          }
+                        },
+                        icon: Icons.add,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -124,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                flex: 4,
+                                flex: 5,
                                 child: Text(
                                   listItems[index],
                                   style: const TextStyle(
