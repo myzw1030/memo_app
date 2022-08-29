@@ -129,7 +129,8 @@ class _HomePageState extends State<HomePage> {
                                   listItems[index],
                                   style: const TextStyle(
                                     fontSize: 16.0,
-                                    height: 1.4,
+                                    height: 1.6,
+                                    letterSpacing: 3,
                                   ),
                                 ),
                               ),
