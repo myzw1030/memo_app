@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memo_app/utils/memo_list_store.dart';
 import 'package:memo_app/utils/memo.dart';
-import 'package:memo_app/component/card_button.dart';
 
 class MemoInputPage extends StatefulWidget {
   static String id = 'memo_input_page';
@@ -40,40 +39,47 @@ class _MemoInputPageState extends State<MemoInputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 4,
-                child: TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  minLines: 3,
-                  decoration: const InputDecoration(
-                    filled: false,
-                    hintText: 'メモを入力してね',
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 20.0,
-                      horizontal: 15.0,
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.opaque,
+        child: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: 40.0,
+              horizontal: 20.0,
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  // flex: 5,
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    autofocus: true,
+                    maxLines: null,
+                    minLines: 8,
+                    decoration: const InputDecoration(
+                      filled: false,
+                      hintText: 'メモを入力してね',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 15.0,
+                      ),
                     ),
+                    controller: TextEditingController(text: _text),
+                    onChanged: (String value) {
+                      _text = value;
+                    },
                   ),
-                  controller: TextEditingController(text: _text),
-                  onChanged: (String value) {
-                    _text = value;
-                  },
                 ),
-              ),
-              const SizedBox(
-                width: 8.0,
-              ),
-              Expanded(
-                flex: 1,
-                child: CardButton(
-                  color: Colors.blue,
-                  press: () {
+                const SizedBox(
+                  width: 8.0,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                  ),
+                  onPressed: () {
                     if (_isCreateMemo) {
                       // メモを追加
                       _store.add(_text);
@@ -84,10 +90,12 @@ class _MemoInputPageState extends State<MemoInputPage> {
                     // メモリスト画面へ戻る
                     Navigator.of(context).pop();
                   },
-                  icon: Icons.check,
+                  child: const Icon(
+                    Icons.check,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

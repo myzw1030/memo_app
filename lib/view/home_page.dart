@@ -33,11 +33,7 @@ class _HomePageState extends State<HomePage> {
     );
     setState(() {});
   }
-  // リストのデータ
-  // List<String> listItems = [''];
 
-  // final titleController = TextEditingController();
-  // String title = '';
   @override
   void initState() {
     super.initState();
@@ -55,7 +51,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 40.0,
+            horizontal: 50.0,
+          ),
           child: ListView.builder(
             itemCount: _store.count(),
             itemBuilder: (context, index) {
@@ -72,6 +71,7 @@ class _HomePageState extends State<HomePage> {
                           _store.delete(item);
                         });
                       },
+                      backgroundColor: Colors.red,
                       icon: FontAwesomeIcons.solidTrashCan,
                       label: '削除',
                     ),
@@ -79,25 +79,26 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.of(context).push(CustomPageRoute(
-                    //   const MemoInputPage(),
-                    // ));
                     _pushMemoInputPage(item);
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          4.0,
-                        ),
+                  child: Container(
+                    width: double.infinity,
+                    height: 200,
+                    margin: const EdgeInsets.only(
+                      bottom: 40.0,
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
                       ),
-                      child: ListTile(
-                        leading: Text(item.id.toString()),
-                        title: Text(item.text),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Text(
+                        item.text,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                        ),
                       ),
                     ),
                   ),
