@@ -1,160 +1,117 @@
 import 'package:flutter/material.dart';
-import 'package:memo_app/component/card_button.dart';
-import 'package:memo_app/view/add_task_page.dart';
-import 'package:memo_app/utils/custom_page_route.dart';
-import 'package:memo_app/utils/shared_prefs.dart';
+import 'package:memo_app/utils/memo_list_store.dart';
+import 'package:memo_app/view/memo_input_page.dart';
+import 'package:memo_app/utils/memo.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
+  // コンストラクタ
   const HomePage({Key? key}) : super(key: key);
 
+  // Memoリスト画面の生成
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
+// 役割
+// メモリストを表示
+// メモの追加/編集画面へ遷移
+// メモの削除
 class _HomePageState extends State<HomePage> {
-  // リストのデータ
-  List<String> listItems = [''];
+  // ストア
+  final MemoListStore _store = MemoListStore();
 
-  final titleController = TextEditingController();
-  String title = '';
+  // メモ編集画面に遷移
+  void _pushMemoInputPage([Memo? memo]) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return MemoInputPage(memo: memo);
+        },
+      ),
+    );
+    setState(() {});
+  }
+  // リストのデータ
+  // List<String> listItems = [''];
+
+  // final titleController = TextEditingController();
+  // String title = '';
   @override
   void initState() {
     super.initState();
-    init();
-  }
 
-  // アプリ起動時に保存したデータを読み込む
-  void init() async {
-    // インスタンスを取得
-    await SharePrefs.setInstance();
-    listItems = SharePrefs.getListItems();
-    setState(() {});
+    Future(() async {
+      // ストアからMemoリストデータをロードし画面を更新
+      setState(() {
+        _store.load();
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  // Navigator.pushNamed(context, AddTaskPage.id);
-                  Navigator.of(context).push(CustomPageRoute(
-                    const AddTaskPage(),
-                  ));
-                },
-                child: const Text('aaa'),
-              ),
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ListView.builder(
+            itemCount: _store.count(),
+            itemBuilder: (context, index) {
+              // インデックスに対応するTodoを取得する
+              var item = _store.findByIndex(index);
+              return Slidable(
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  extentRatio: 0.25,
                   children: [
-                    Expanded(
-                      flex: 5,
-                      child: TextField(
-                        maxLines: null,
-                        minLines: 5,
-                        keyboardType: TextInputType.multiline,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        decoration: const InputDecoration(
-                          filled: false,
-                          hintText: 'メモを入力してね',
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 20.0,
-                            horizontal: 15.0,
-                          ),
-                        ),
-                        controller: titleController,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15.0,
-                    ),
-                    Expanded(
-                      child: CardButton(
-                        color: Colors.blue,
-                        press: () {
-                          if (titleController.text.isEmpty) {
-                            // _validate = true;
-                            setState(() {});
-                          } else {
-                            // _validate = false;
-                            title = titleController.text;
-                            // リストに追加
-                            listItems.add(title);
-                            // データを保存
-                            SharePrefs.setListItems(listItems).then((_) {
-                              setState(() {});
-                            });
-                            // テキストフィールドの値はクリア
-                            titleController.clear();
-                          }
-                        },
-                        icon: Icons.add,
-                      ),
+                    SlidableAction(
+                      onPressed: (context) {
+                        setState(() {
+                          _store.delete(item);
+                        });
+                      },
+                      icon: FontAwesomeIcons.solidTrashCan,
+                      label: '削除',
                     ),
                   ],
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 0,
-                    horizontal: 15.0,
-                  ),
-                  child: ListView.builder(
-                    itemCount: listItems.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                            horizontal: 10.0,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 5,
-                                child: Text(
-                                  listItems[index],
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    height: 1.6,
-                                    letterSpacing: 3,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: CardButton(
-                                  color: Colors.redAccent,
-                                  press: () {
-                                    // // データを削除
-                                    listItems.removeAt(index);
-                                    SharePrefs.setListItems(listItems)
-                                        .then((_) {
-                                      setState(() {});
-                                    });
-                                  },
-                                  icon: Icons.close,
-                                ),
-                              ),
-                            ],
-                          ),
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigator.of(context).push(CustomPageRoute(
+                    //   const MemoInputPage(),
+                    // ));
+                    _pushMemoInputPage(item);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
                         ),
-                      );
-                    },
+                        borderRadius: BorderRadius.circular(
+                          4.0,
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: Text(item.id.toString()),
+                        title: Text(item.text),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
+      ),
+      // Todo追加画面に遷移するボタン
+      floatingActionButton: FloatingActionButton(
+        // Todo追加画面に遷移する
+        onPressed: _pushMemoInputPage,
+        child: const Icon(Icons.add),
       ),
     );
   }

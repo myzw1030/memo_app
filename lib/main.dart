@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:memo_app/view/add_task_page.dart';
+import 'package:memo_app/view/memo_input_page.dart';
 import 'package:memo_app/view/home_page.dart';
 
 Future main() async {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomePage(),
       routes: {
-        AddTaskPage.id: (context) => const AddTaskPage(),
+        MemoInputPage.id: (context) => const MemoInputPage(),
       },
     );
   }

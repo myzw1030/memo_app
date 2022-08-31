@@ -25,7 +25,7 @@ class CardButton extends StatelessWidget {
           child: Center(
             child: Icon(
               icon,
-              size: 35.0,
+              size: 30.0,
               color: Colors.white,
             ),
           ),
