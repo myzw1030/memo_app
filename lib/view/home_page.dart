@@ -50,69 +50,78 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 40.0,
-            horizontal: 50.0,
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/wood-texture.webp'),
+              fit: BoxFit.cover,
+            ),
           ),
-          child: ListView.builder(
-            itemCount: _store.count(),
-            itemBuilder: (context, index) {
-              // インデックスに対応するTodoを取得する
-              var item = _store.findByIndex(index);
-              return Container(
-                margin: const EdgeInsets.only(
-                  bottom: 30.0,
-                ),
-                child: Slidable(
-                  key: UniqueKey(),
-                  endActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    extentRatio: 0.25,
-                    dismissible: DismissiblePane(onDismissed: () {
-                      setState(() {
-                        _store.delete(item);
-                      });
-                    }),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          setState(() {
-                            _store.delete(item);
-                          });
-                        },
-                        backgroundColor: Colors.red,
-                        icon: FontAwesomeIcons.solidTrashCan,
-                        label: '削除',
-                      ),
-                    ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 50.0,
+              horizontal: 50.0,
+            ),
+            child: ListView.builder(
+              itemCount: _store.count(),
+              itemBuilder: (context, index) {
+                // インデックスに対応するTodoを取得する
+                var item = _store.findByIndex(index);
+                return Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 30.0,
                   ),
-                  child: GestureDetector(
-                    onTap: () {
-                      _pushMemoInputPage(item);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 200,
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
+                  child: Slidable(
+                    key: UniqueKey(),
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      extentRatio: 0.25,
+                      dismissible: DismissiblePane(onDismissed: () {
+                        setState(() {
+                          _store.delete(item);
+                        });
+                      }),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) {
+                            setState(() {
+                              _store.delete(item);
+                            });
+                          },
+                          backgroundColor: Colors.red,
+                          icon: FontAwesomeIcons.solidTrashCan,
+                          label: '削除',
                         ),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Text(
-                          item.text,
-                          style: const TextStyle(
-                            fontSize: 18.0,
+                      ],
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        _pushMemoInputPage(item);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 200,
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            item.text,
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

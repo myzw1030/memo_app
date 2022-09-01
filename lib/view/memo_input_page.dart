@@ -46,7 +46,7 @@ class _MemoInputPageState extends State<MemoInputPage> {
         child: SafeArea(
           child: Container(
             padding: const EdgeInsets.symmetric(
-              vertical: 40.0,
+              vertical: 50.0,
               horizontal: 20.0,
             ),
             child: Row(
