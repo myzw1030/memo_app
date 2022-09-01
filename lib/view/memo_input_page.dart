@@ -26,7 +26,8 @@ class _MemoInputPageState extends State<MemoInputPage> {
   late bool _isCreateMemo;
   // メモ内容
   late String _text;
-
+  // final titleController = TextEditingController();
+  bool _validate = false;
   @override
   void initState() {
     super.initState();
@@ -57,11 +58,12 @@ class _MemoInputPageState extends State<MemoInputPage> {
                     autofocus: true,
                     maxLines: null,
                     minLines: 8,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      errorText: _validate ? 'メモがないよ！' : null,
                       filled: false,
                       hintText: 'メモを入力してね',
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
+                      border: const OutlineInputBorder(),
+                      contentPadding: const EdgeInsets.symmetric(
                         vertical: 20.0,
                         horizontal: 15.0,
                       ),
@@ -80,6 +82,12 @@ class _MemoInputPageState extends State<MemoInputPage> {
                     shape: const CircleBorder(),
                   ),
                   onPressed: () {
+                    // メモが空ならチェック
+                    if (_text.isEmpty) {
+                      _validate = true;
+                      setState(() {});
+                      return;
+                    }
                     if (_isCreateMemo) {
                       // メモを追加
                       _store.add(_text);

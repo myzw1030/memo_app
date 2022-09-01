@@ -60,44 +60,52 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               // インデックスに対応するTodoを取得する
               var item = _store.findByIndex(index);
-              return Slidable(
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  extentRatio: 0.25,
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) {
-                        setState(() {
-                          _store.delete(item);
-                        });
-                      },
-                      backgroundColor: Colors.red,
-                      icon: FontAwesomeIcons.solidTrashCan,
-                      label: '削除',
-                    ),
-                  ],
+              return Container(
+                margin: const EdgeInsets.only(
+                  bottom: 30.0,
                 ),
-                child: GestureDetector(
-                  onTap: () {
-                    _pushMemoInputPage(item);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 200,
-                    margin: const EdgeInsets.only(
-                      bottom: 40.0,
-                    ),
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
+                child: Slidable(
+                  key: UniqueKey(),
+                  endActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    extentRatio: 0.25,
+                    dismissible: DismissiblePane(onDismissed: () {
+                      setState(() {
+                        _store.delete(item);
+                      });
+                    }),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) {
+                          setState(() {
+                            _store.delete(item);
+                          });
+                        },
+                        backgroundColor: Colors.red,
+                        icon: FontAwesomeIcons.solidTrashCan,
+                        label: '削除',
                       ),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Text(
-                        item.text,
-                        style: const TextStyle(
-                          fontSize: 18.0,
+                    ],
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      _pushMemoInputPage(item);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 200,
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          item.text,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                          ),
                         ),
                       ),
                     ),
