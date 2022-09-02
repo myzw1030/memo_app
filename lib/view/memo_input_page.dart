@@ -43,68 +43,92 @@ class _MemoInputPageState extends State<MemoInputPage> {
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.opaque,
-        child: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 50.0,
-              horizontal: 20.0,
+        child: Stack(
+          children: [
+            const Positioned.fill(
+              child: Image(
+                image: AssetImage('images/wood-texture.webp'),
+                fit: BoxFit.cover,
+              ),
             ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  // flex: 5,
-                  child: TextField(
-                    keyboardType: TextInputType.multiline,
-                    autofocus: true,
-                    maxLines: null,
-                    minLines: 8,
-                    decoration: InputDecoration(
-                      errorText: _validate ? 'メモがないよ！' : null,
-                      filled: false,
-                      hintText: 'メモを入力してね',
-                      border: const OutlineInputBorder(),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 15.0,
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 50.0,
+                horizontal: 20.0,
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    // flex: 5,
+                    child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      autofocus: true,
+                      maxLines: null,
+                      minLines: 6,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        letterSpacing: 0.5,
+                        height: 1.6,
                       ),
+                      decoration: InputDecoration(
+                        errorText: _validate ? 'メモがないよ！' : null,
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'メモを入力してね',
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 15.0,
+                        ),
+                      ),
+                      controller: TextEditingController(text: _text),
+                      onChanged: (String value) {
+                        _text = value;
+                      },
                     ),
-                    controller: TextEditingController(text: _text),
-                    onChanged: (String value) {
-                      _text = value;
+                  ),
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                    ),
+                    onPressed: () {
+                      // メモが空ならチェック
+                      if (_text.isEmpty) {
+                        _validate = true;
+                        setState(() {});
+                        return;
+                      }
+                      if (_isCreateMemo) {
+                        // メモを追加
+                        _store.add(_text);
+                      } else {
+                        // メモを更新
+                        _store.update(widget.memo!, _text);
+                      }
+
+                      // メモリスト画面へ戻る
+                      Navigator.of(context).pop();
                     },
+                    child: const Icon(
+                      Icons.check,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 8.0,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                  ),
-                  onPressed: () {
-                    // メモが空ならチェック
-                    if (_text.isEmpty) {
-                      _validate = true;
-                      setState(() {});
-                      return;
-                    }
-                    if (_isCreateMemo) {
-                      // メモを追加
-                      _store.add(_text);
-                    } else {
-                      // メモを更新
-                      _store.update(widget.memo!, _text);
-                    }
-                    // メモリスト画面へ戻る
-                    Navigator.of(context).pop();
-                  },
-                  child: const Icon(
-                    Icons.check,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

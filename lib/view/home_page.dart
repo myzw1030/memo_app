@@ -49,17 +49,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
+      body: Stack(
+        children: [
+          const Positioned.fill(
+            child: Image(
               image: AssetImage('images/wood-texture.webp'),
               fit: BoxFit.cover,
             ),
           ),
-          child: Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 50.0,
+              vertical: 20.0,
               horizontal: 50.0,
             ),
             child: ListView.builder(
@@ -113,6 +113,8 @@ class _HomePageState extends State<HomePage> {
                             item.text,
                             style: const TextStyle(
                               fontSize: 18.0,
+                              letterSpacing: 0.5,
+                              height: 1.6,
                             ),
                           ),
                         ),
@@ -123,7 +125,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-        ),
+        ],
       ),
       // Todo追加画面に遷移するボタン
       floatingActionButton: FloatingActionButton(

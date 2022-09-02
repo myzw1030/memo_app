@@ -35,7 +35,9 @@ class MemoListStore {
   void add(String text) {
     final id = count() == 0 ? 1 : _list.last.id + 1;
     final memo = Memo(id, text);
-    _list.add(memo);
+    // _list.add(memo);
+    // 先頭へ追加
+    _list.insert(0, memo);
     save();
   }
 
