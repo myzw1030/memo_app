@@ -54,14 +54,14 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Positioned.fill(
             child: Image(
-              image: AssetImage('images/wood-texture.webp'),
+              image: AssetImage('images/wallpaper_img.webp'),
               fit: BoxFit.cover,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 20.0,
-              horizontal: 50.0,
+              vertical: 30.0,
+              horizontal: 70.0,
             ),
             child: ListView.builder(
               itemCount: _store.count(),
@@ -99,20 +99,23 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         _pushMemoInputPage(item);
                       },
-                      child: Container(
-                        width: double.infinity,
-                        height: 200,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          width: double.infinity,
+                          height: 200,
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
                             color: Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Text(
-                            item.text,
-                            style: kCardTextStyle,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              item.text,
+                              style: kCardTextStyle,
+                            ),
                           ),
                         ),
                       ),

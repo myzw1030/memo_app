@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:memo_app/component/card_button.dart';
 import 'package:memo_app/utils/constants.dart';
 import 'package:memo_app/utils/memo_list_store.dart';
@@ -45,126 +46,139 @@ class _MemoInputPageState extends State<MemoInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
         behavior: HitTestBehavior.opaque,
         child: Stack(
           children: [
             const Positioned.fill(
               child: Image(
-                image: AssetImage('images/wood-texture.webp'),
+                image: AssetImage('images/wallpaper_img.webp'),
                 fit: BoxFit.cover,
               ),
             ),
-            Center(
-              child: Container(
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 50.0,
-                  horizontal: 20.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: CardButton(
-                        color: Colors.grey.shade700,
-                        press: () {
-                          // メモリスト画面へ戻る
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icons.close,
-                      ),
+            Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.symmetric(
+                vertical: 50.0,
+                horizontal: 20.0,
+              ),
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: CardButton(
+                      color: Colors.grey.shade700,
+                      press: () {
+                        // メモリスト画面へ戻る
+                        Navigator.of(context).pop();
+                      },
+                      icon: FontAwesomeIcons.xmark,
                     ),
-                    const SizedBox(
-                      width: 8.0,
-                    ),
-                    Expanded(
-                      flex: 7,
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        autofocus: true,
-                        maxLines: null,
-                        minLines: 6,
-                        style: kCardTextStyle,
-                        decoration: InputDecoration(
-                          errorText: _validate ? 'メモがないよ！' : null,
-                          filled: true,
-                          fillColor: kMemoColor,
-                          hintText: 'メモを入力してね',
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20.0,
-                            horizontal: 15.0,
+                  ),
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      autofocus: true,
+                      maxLines: null,
+                      minLines: 7,
+                      style: kCardTextStyle,
+                      decoration: InputDecoration(
+                        errorText: _validate ? 'メモがないよ！' : null,
+                        errorStyle: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+                        filled: true,
+                        fillColor: kMemoColor,
+                        hintText: 'メモを入力してね',
+                        border: InputBorder.none,
+                        errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 2.0,
                           ),
                         ),
-                        controller: TextEditingController(text: _text),
-                        onChanged: (String value) {
-                          _text = value;
-                        },
+                        // enabledBorder: const OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        // focusedBorder: const OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20.0,
+                          horizontal: 15.0,
+                        ),
                       ),
+                      controller: TextEditingController(text: _text),
+                      onChanged: (String value) {
+                        _text = value;
+                      },
                     ),
-                    const SizedBox(
-                      width: 8.0,
+                  ),
+                  const SizedBox(
+                    width: 8.0,
+                  ),
+                  Expanded(
+                    child: CardButton(
+                      color: Colors.blue,
+                      press: () {
+                        // メモが空ならチェック
+                        if (_text.isEmpty) {
+                          _validate = true;
+                          setState(() {});
+                          return;
+                        }
+                        if (_isCreateMemo) {
+                          // メモを追加
+                          _store.add(_text);
+                        } else {
+                          // メモを更新
+                          _store.update(widget.memo!, _text);
+                        }
+                        // メモリスト画面へ戻る
+                        Navigator.of(context).pop();
+                      },
+                      icon: FontAwesomeIcons.check,
                     ),
-                    Expanded(
-                      child: CardButton(
-                        color: Colors.blue,
-                        press: () {
-                          // メモが空ならチェック
-                          if (_text.isEmpty) {
-                            _validate = true;
-                            setState(() {});
-                            return;
-                          }
-                          if (_isCreateMemo) {
-                            // メモを追加
-                            _store.add(_text);
-                          } else {
-                            // メモを更新
-                            _store.update(widget.memo!, _text);
-                          }
-                          // メモリスト画面へ戻る
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icons.check,
-                      ),
-                    ),
-                    // ElevatedButton(
-                    //   style: ElevatedButton.styleFrom(
-                    //     shape: const CircleBorder(),
-                    //   ),
-                    //   onPressed: () {
-                    //     // メモが空ならチェック
-                    //     if (_text.isEmpty) {
-                    //       _validate = true;
-                    //       setState(() {});
-                    //       return;
-                    //     }
-                    //     if (_isCreateMemo) {
-                    //       // メモを追加
-                    //       _store.add(_text);
-                    //     } else {
-                    //       // メモを更新
-                    //       _store.update(widget.memo!, _text);
-                    //     }
-                    //     // メモリスト画面へ戻る
-                    //     Navigator.of(context).pop();
-                    //   },
-                    //   child: const Icon(
-                    //     Icons.check,
-                    //   ),
-                    // ),
-                  ],
-                ),
+                  ),
+                  // ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(
+                  //     shape: const CircleBorder(),
+                  //   ),
+                  //   onPressed: () {
+                  //     // メモが空ならチェック
+                  //     if (_text.isEmpty) {
+                  //       _validate = true;
+                  //       setState(() {});
+                  //       return;
+                  //     }
+                  //     if (_isCreateMemo) {
+                  //       // メモを追加
+                  //       _store.add(_text);
+                  //     } else {
+                  //       // メモを更新
+                  //       _store.update(widget.memo!, _text);
+                  //     }
+                  //     // メモリスト画面へ戻る
+                  //     Navigator.of(context).pop();
+                  //   },
+                  //   child: const Icon(
+                  //     Icons.check,
+                  //   ),
+                  // ),
+                ],
               ),
             ),
           ],
