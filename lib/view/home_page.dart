@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memo_app/utils/constants.dart';
 import 'package:memo_app/utils/memo_list_store.dart';
 import 'package:memo_app/view/memo_input_page.dart';
 import 'package:memo_app/utils/memo.dart';
@@ -111,11 +112,7 @@ class _HomePageState extends State<HomePage> {
                         child: SingleChildScrollView(
                           child: Text(
                             item.text,
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              letterSpacing: 0.5,
-                              height: 1.6,
-                            ),
+                            style: kCardTextStyle,
                           ),
                         ),
                       ),
@@ -131,7 +128,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         // Todo追加画面に遷移する
         onPressed: _pushMemoInputPage,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          FontAwesomeIcons.solidPenToSquare,
+        ),
       ),
     );
   }

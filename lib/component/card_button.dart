@@ -18,16 +18,14 @@ class CardButton extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(40.0),
+          shape: BoxShape.circle,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Center(
-            child: Icon(
-              icon,
-              size: 30.0,
-              color: Colors.white,
-            ),
+          padding: const EdgeInsets.all(5.0),
+          child: Icon(
+            icon,
+            size: 25.0,
+            color: Colors.white,
           ),
         ),
       ),

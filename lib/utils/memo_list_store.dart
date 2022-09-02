@@ -8,7 +8,7 @@ class MemoListStore {
   final String _saveKey = 'Memo';
 
   // Memoリスト
-  List<Memo> _list = [];
+  List<Memo> _list = [Memo(0, '')];
 
   // ストアのインスタンス
   static final MemoListStore _instance = MemoListStore._internal();
