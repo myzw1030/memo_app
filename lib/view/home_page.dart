@@ -68,6 +68,7 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 // インデックスに対応するTodoを取得する
                 var item = _store.findByIndex(index);
+
                 return Container(
                   margin: const EdgeInsets.only(
                     bottom: 30.0,
@@ -128,11 +129,19 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       // Todo追加画面に遷移するボタン
-      floatingActionButton: FloatingActionButton(
-        // Todo追加画面に遷移する
-        onPressed: _pushMemoInputPage,
-        child: const Icon(
-          FontAwesomeIcons.solidPenToSquare,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          left: 0,
+          top: 0,
+          right: 15.0,
+          bottom: 30.0,
+        ),
+        child: FloatingActionButton(
+          // Todo追加画面に遷移する
+          onPressed: _pushMemoInputPage,
+          child: const Icon(
+            FontAwesomeIcons.solidPenToSquare,
+          ),
         ),
       ),
     );

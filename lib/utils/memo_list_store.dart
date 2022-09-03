@@ -8,7 +8,7 @@ class MemoListStore {
   final String _saveKey = 'Memo';
 
   // Memoリスト
-  List<Memo> _list = [Memo(0, '')];
+  List<Memo> _list = [];
 
   // ストアのインスタンス
   static final MemoListStore _instance = MemoListStore._internal();
@@ -21,6 +21,10 @@ class MemoListStore {
     return _instance;
   }
 
+  List<Memo> list() {
+    return _list;
+  }
+
   // Memoの件数を取得
   int count() {
     return _list.length;
@@ -29,6 +33,17 @@ class MemoListStore {
   // 指定したインデックスのMemoを取得する
   Memo findByIndex(int index) {
     return _list[index];
+  }
+
+//
+  void startMemo() {
+    final memo = Memo(0, '');
+    // 先頭へ追加
+    if (_list.isEmpty) {
+      // print(_list.isEmpty);
+      _list.insert(0, memo);
+      save();
+    }
   }
 
   // Memoを追加する
@@ -60,7 +75,7 @@ class MemoListStore {
     final prefs = await SharedPreferences.getInstance();
     // SharedPreferencesはプリミティブ型とString型リストしか扱えないため、以下の変換を行っている
     // TodoList形式 → Map形式 → JSON形式 → StringList形式
-    final saveTargetList = _list.map((a) => json.encode(a.toJson())).toList();
+    final saveTargetList = _list.map((e) => json.encode(e.toJson())).toList();
     prefs.setStringList(_saveKey, saveTargetList);
   }
 
@@ -68,6 +83,15 @@ class MemoListStore {
   void load() async {
     final prefs = await SharedPreferences.getInstance();
     final loadTargetList = prefs.getStringList(_saveKey) ?? [];
+
     _list = loadTargetList.map((e) => Memo.fromJson(json.decode(e))).toList();
+
+    // メモリストが空だったら一つ入れておく
+    bool listEmpty = _list.isEmpty;
+    if (listEmpty) {
+      _list.add(Memo(0, ''));
+    } else {
+      // debugPrint('メモあり');
+    }
   }
 }
