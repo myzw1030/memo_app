@@ -31,7 +31,6 @@ class _MemoInputPageState extends State<MemoInputPage> {
   late bool _isCreateMemo;
   // メモ内容
   late String _text;
-  // final titleController = TextEditingController();
   bool _validate = false;
   @override
   void initState() {
