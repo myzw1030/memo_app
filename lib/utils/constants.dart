@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 const kTitleKey = 'name';
 
 var kCardTextStyle = TextStyle(
-  fontSize: 18.0,
+  fontSize: 20.0,
   letterSpacing: 0.6,
-  height: 1.6,
+  height: 1.4,
   fontWeight: FontWeight.w400,
   color: HexColor('222222'),
 );

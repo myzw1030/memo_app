@@ -31,6 +31,9 @@ class _HomePageState extends State<HomePage> {
           return MemoInputPage(memo: memo);
         },
       ),
+      // CustomPageRoute(
+      //   MemoInputPage(memo: memo),
+      // ),
     );
     setState(() {});
   }
@@ -54,14 +57,14 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Positioned.fill(
             child: Image(
-              image: AssetImage('images/wallpaper_img.webp'),
+              image: AssetImage('images/wood-img1.webp'),
               fit: BoxFit.cover,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 30.0,
-              horizontal: 70.0,
+              vertical: 50.0,
+              horizontal: 60.0,
             ),
             child: ListView.builder(
               itemCount: _store.count(),
@@ -105,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           width: double.infinity,
                           height: 200,
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -139,6 +142,7 @@ class _HomePageState extends State<HomePage> {
         child: FloatingActionButton(
           // Todo追加画面に遷移する
           onPressed: _pushMemoInputPage,
+          backgroundColor: Colors.green,
           child: const Icon(
             FontAwesomeIcons.solidPenToSquare,
           ),

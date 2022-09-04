@@ -21,7 +21,7 @@ class CardButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(8.0),
           child: Icon(
             icon,
             size: 24.0,

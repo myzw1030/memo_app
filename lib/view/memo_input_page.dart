@@ -31,7 +31,7 @@ class _MemoInputPageState extends State<MemoInputPage> {
   late bool _isCreateMemo;
   // メモ内容
   late String _text;
-  bool _validate = false;
+  // final bool _validate = false;
   @override
   void initState() {
     super.initState();
@@ -53,18 +53,18 @@ class _MemoInputPageState extends State<MemoInputPage> {
           children: [
             const Positioned.fill(
               child: Image(
-                image: AssetImage('images/wallpaper_img.webp'),
+                image: AssetImage('images/wood-img1.webp'),
                 fit: BoxFit.cover,
               ),
             ),
             Container(
               alignment: Alignment.topCenter,
               padding: const EdgeInsets.symmetric(
-                vertical: 50.0,
-                horizontal: 20.0,
+                vertical: 70.0,
+                horizontal: 10.0,
               ),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
@@ -78,7 +78,7 @@ class _MemoInputPageState extends State<MemoInputPage> {
                     ),
                   ),
                   const SizedBox(
-                    width: 8.0,
+                    width: 10.0,
                   ),
                   Expanded(
                     flex: 7,
@@ -86,37 +86,26 @@ class _MemoInputPageState extends State<MemoInputPage> {
                       keyboardType: TextInputType.multiline,
                       autofocus: true,
                       maxLines: null,
-                      minLines: 7,
+                      minLines: 8,
                       style: kCardTextStyle,
                       decoration: InputDecoration(
-                        errorText: _validate ? 'メモがないよ！' : null,
-                        errorStyle: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-
+                        // errorText: _validate ? 'メモがないよ！' : null,
+                        // errorStyle: const TextStyle(
+                        //   fontSize: 18.0,
+                        //   fontWeight: FontWeight.bold,
+                        // ),
                         filled: true,
                         fillColor: kMemoColor,
                         hintText: 'メモを入力してね',
                         border: InputBorder.none,
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2.0,
-                          ),
-                        ),
-                        // enabledBorder: const OutlineInputBorder(
+                        // errorBorder: const OutlineInputBorder(
                         //   borderSide: BorderSide(
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                        // focusedBorder: const OutlineInputBorder(
-                        //   borderSide: BorderSide(
-                        //     color: Colors.white,
+                        //     color: Colors.red,
+                        //     width: 2.0,
                         //   ),
                         // ),
                         contentPadding: const EdgeInsets.symmetric(
-                          vertical: 20.0,
+                          vertical: 15.0,
                           horizontal: 15.0,
                         ),
                       ),
@@ -127,18 +116,18 @@ class _MemoInputPageState extends State<MemoInputPage> {
                     ),
                   ),
                   const SizedBox(
-                    width: 8.0,
+                    width: 10.0,
                   ),
                   Expanded(
                     child: CardButton(
-                      color: Colors.blue,
+                      color: Colors.green,
                       press: () {
                         // メモが空ならチェック
-                        if (_text.isEmpty) {
-                          _validate = true;
-                          setState(() {});
-                          return;
-                        }
+                        // if (_text.isEmpty) {
+                        //   _validate = true;
+                        //   setState(() {});
+                        //   return;
+                        // }
                         if (_isCreateMemo) {
                           // メモを追加
                           _store.add(_text);
@@ -149,34 +138,9 @@ class _MemoInputPageState extends State<MemoInputPage> {
                         // メモリスト画面へ戻る
                         Navigator.of(context).pop();
                       },
-                      icon: FontAwesomeIcons.check,
+                      icon: FontAwesomeIcons.plus,
                     ),
                   ),
-                  // ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(
-                  //     shape: const CircleBorder(),
-                  //   ),
-                  //   onPressed: () {
-                  //     // メモが空ならチェック
-                  //     if (_text.isEmpty) {
-                  //       _validate = true;
-                  //       setState(() {});
-                  //       return;
-                  //     }
-                  //     if (_isCreateMemo) {
-                  //       // メモを追加
-                  //       _store.add(_text);
-                  //     } else {
-                  //       // メモを更新
-                  //       _store.update(widget.memo!, _text);
-                  //     }
-                  //     // メモリスト画面へ戻る
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   child: const Icon(
-                  //     Icons.check,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
