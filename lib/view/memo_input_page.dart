@@ -53,7 +53,7 @@ class _MemoInputPageState extends State<MemoInputPage> {
           children: [
             const Positioned.fill(
               child: Image(
-                image: AssetImage('images/wood-img1.webp'),
+                image: AssetImage('images/wallpaper_img.webp'),
                 fit: BoxFit.cover,
               ),
             ),

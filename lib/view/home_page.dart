@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Positioned.fill(
             child: Image(
-              image: AssetImage('images/wood-img1.webp'),
+              image: AssetImage('images/wallpaper_img.webp'),
               fit: BoxFit.cover,
             ),
           ),
@@ -111,6 +111,13 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(15.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 10.0,
+                                spreadRadius: -10.0,
+                                offset: Offset(2, 7),
+                              )
+                            ],
                             border: Border.all(
                               color: Colors.white,
                             ),
