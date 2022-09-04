@@ -138,7 +138,7 @@ class _MemoInputPageState extends State<MemoInputPage> {
                         // メモリスト画面へ戻る
                         Navigator.of(context).pop();
                       },
-                      icon: FontAwesomeIcons.plus,
+                      icon: FontAwesomeIcons.check,
                     ),
                   ),
                 ],
