@@ -1,4 +1,5 @@
 # memo_app
+![simulator_screenshot_D34ACC6D-8759-4EA1-A7F8-44BBA800425D](https://user-images.githubusercontent.com/90631432/188307369-f43ef2cf-452a-49d2-88d4-3e9d3c965808.png)
 
 A new Flutter project.
 
