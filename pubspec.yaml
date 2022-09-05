@@ -18,6 +18,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   font_awesome_flutter: ^10.1.0
   flutter_native_splash: ^2.2.8
+  flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
@@ -47,3 +48,10 @@ flutter:
 flutter_native_splash:
   image: "assets/icon/memo-icon2.png"
   color: "ffffff"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/icon/sakumemo_icon.png'
+  adaptive_icon_background: '#ffffff'
+  adaptive_icon_foreground: 'assets/icon/sakumemo_icon.png'
