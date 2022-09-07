@@ -1,4 +1,4 @@
-package com.example.memo_app
+package com.miyazawa.sakumemo_app
 
 import io.flutter.embedding.android.FlutterActivity
 

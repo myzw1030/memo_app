@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.memo_app">
+    package="com.miyazawa.sakumemo">
    <application
-        android:label="memo_app"
+        android:label="サクメモ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
