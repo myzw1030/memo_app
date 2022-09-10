@@ -1,4 +1,4 @@
-package com.miyazawa.sakumemo_app
+package com.miyazawa.sakumemo
 
 import io.flutter.embedding.android.FlutterActivity
 
